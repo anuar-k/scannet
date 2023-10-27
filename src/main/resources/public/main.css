@@ -1,0 +1,46 @@
+:root {
+    --main-bg-color: grey;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    color: grey;
+}
+
+.container {
+    margin: 0 auto;
+    width: 1024px;
+}
+
+.mx-auto {
+    margin-top: 3rem;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.input-group-text {
+    width: 200px;
+    color: var(--main-bg-color);
+}
+
+.card-title {
+    text-align: center;
+}
+
+.input-group {
+    width: 350px;
+}
+
+form {
+    justify-content: center;
+    align-items: center;
+
+}
+
+.submit-btn{
+    text-align: center;
+}
