@@ -73,6 +73,8 @@
                             <mainClass>com.netapp.Main</mainClass>
                         </manifest>
                     </archive>
+                    <finalName>${project.artifactId}-${project.version}</finalName>
+                    <appendAssemblyId>false</appendAssemblyId>
                 </configuration>
                 <executions>
                     <execution>
