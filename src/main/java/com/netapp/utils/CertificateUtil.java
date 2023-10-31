@@ -1,43 +1,25 @@
-package com.netapp;
+package com.netapp.utils;
 
-import io.javalin.Javalin;
-import io.javalin.http.staticfiles.Location;
 import org.apache.commons.net.util.SubnetUtils;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
-import java.io.*;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.security.cert.CertificateParsingException;
 import java.security.cert.X509Certificate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
-public class ScanApplication {
-    public static String fileName = "found_domains.txt";
+public class CertificateUtil {
+    public static final String fileName = "found_domains.txt";
 
-    public void start() throws NullPointerException {
-        Javalin app = Javalin.create(config -> {
-            config.addStaticFiles("/public", Location.CLASSPATH);
-        }).start(80);
-
-        app.post("/scan", ctx -> {
-            String mask = ctx.formParam("mask");
-            int threadCount = Integer.parseInt(ctx.formParam("threadCount"));
-
-            if (threadCount <= 0) {
-                threadCount = 1;
-            }
-            clearFile();
-            ctx.redirect("/");
-            scanIPAddresses(mask, threadCount);
-        });
-    }
-
-    public void scanIPAddresses(String mask, int threadCount) {
+    public static void scanIPAddresses(String mask, int threadCount) {
         ExecutorService executor = Executors.newFixedThreadPool(threadCount);
         SubnetUtils subnetUtils = new SubnetUtils(mask);
         String[] addresses = subnetUtils.getInfo().getAllAddresses();
@@ -49,7 +31,7 @@ public class ScanApplication {
 
     }
 
-    public X509Certificate getSSLCertificate(String ipAddress) {
+    public static X509Certificate getSSLCertificate(String ipAddress) {
         System.out.println(ipAddress);
         try {
             SSLContext context = SSLContext.getInstance("TLS");
@@ -66,7 +48,7 @@ public class ScanApplication {
         }
     }
 
-    public void scanIpAddress(String ip) {
+    public static void scanIpAddress(String ip) {
         try {
             X509Certificate certificates = getSSLCertificate(ip);
             List<List<?>> certificateNames = certificates
@@ -83,7 +65,7 @@ public class ScanApplication {
         }
     }
 
-    synchronized public void saveDomainToFile(String domain) {
+    static synchronized public void saveDomainToFile(String domain) {
         FileWriter writer = null;
         try {
             writer = new FileWriter(fileName, true);
@@ -98,7 +80,7 @@ public class ScanApplication {
         }
     }
 
-    public void clearFile() {
+    public static void clearFile() {
         FileWriter writer = null;
         try {
             writer = new FileWriter(fileName);
