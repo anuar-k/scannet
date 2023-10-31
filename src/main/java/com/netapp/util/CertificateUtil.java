@@ -1,4 +1,4 @@
-package com.netapp.utils;
+package com.netapp.util;
 
 import org.apache.commons.net.util.SubnetUtils;
 

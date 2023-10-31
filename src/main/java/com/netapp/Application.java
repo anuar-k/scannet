@@ -16,10 +16,6 @@ public class Application {
                 post(ScannerController::scan);
             });
 
-            path("/show", () -> {
-                get(ScannerController::get);
-                post(ScannerController::scan);
-            });
         });
     }
 }

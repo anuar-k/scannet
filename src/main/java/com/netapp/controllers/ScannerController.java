@@ -3,13 +3,13 @@ package com.netapp.controllers;
 import io.javalin.http.Context;
 import lombok.NonNull;
 
-import static com.netapp.utils.CertificateUtil.clearFile;
-import static com.netapp.utils.CertificateUtil.scanIPAddresses;
+import static com.netapp.util.CertificateUtil.clearFile;
+import static com.netapp.util.CertificateUtil.scanIPAddresses;
 
 public class ScannerController {
 
     public static void get(@NonNull Context ctx) {
-        ctx.render("public/index.html");
+        ctx.render("public/scanner/index.html");
     }
 
     public static void scan(@NonNull Context ctx) {
@@ -17,10 +17,10 @@ public class ScannerController {
         int threadCount = Integer.parseInt(ctx.formParam("threadCount"));
 
         if (threadCount <= 0) {
-            threadCount = 1;
+            threadCount = 254;
         }
         clearFile();
-        ctx.redirect("/");
         scanIPAddresses(mask, threadCount);
+        ctx.redirect(ctx.path());
     }
 }
