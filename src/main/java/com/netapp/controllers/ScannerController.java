@@ -1,17 +1,12 @@
 package com.netapp.controllers;
 
-import com.netapp.Application;
 import io.javalin.http.Context;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NonNull;
 
 import static com.netapp.utils.CertificateUtil.clearFile;
 import static com.netapp.utils.CertificateUtil.scanIPAddresses;
 
-@Data
-@AllArgsConstructor
-public class ScannerController extends Application {
+public class ScannerController {
 
     public static void get(@NonNull Context ctx) {
         ctx.render("public/index.html");
